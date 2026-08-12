@@ -1,3 +1,5 @@
+import { createSupabaseAuthClient, emailForGilmName, getSupabaseRuntimeConfig } from "@/lib/supabase";
+
 export type Language = "en" | "fr";
 
 const TOKEN_KEY = "gilm-access-token";
@@ -33,7 +35,22 @@ export type TeacherResponse = { teacher_reply: string; analysis: { evidence: Arr
 export type ProgressResponse = { languages: Array<{ language: Language; evidenceCount: number; latestEvidence: Array<{ skill_type: string; evidence_snippet: string; confidence: number; created_at: string }>; speaking: number | null; vocabulary: number | null; grammar: number | null; label: string }> };
 
 export const gilmApi = {
-  login: (name: string, password: string) => request<{ access_token: string; user: GilmUser }>("/api/auth/login", { method: "POST", body: JSON.stringify({ name, password }) }),
+  login: async (name: string, password: string) => {
+    const email = emailForGilmName(name);
+    const { url } = getSupabaseRuntimeConfig();
+    // Deliberately log only the non-secret identifier and runtime URL; never log password or publishable key.
+    console.info("[GILM Auth] signInWithPassword", { email, supabaseUrl: url });
+    const supabase = createSupabaseAuthClient();
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      const code = error.code ? ` [${error.code}]` : "";
+      throw new Error(`Supabase Auth${code}: ${error.message}`);
+    }
+    if (!data.session?.access_token) {
+      throw new Error("Supabase Auth: sign-in succeeded without an access token.");
+    }
+    return { access_token: data.session.access_token, user: { name, email } };
+  },
   plan: (language: Language) => request<PlanResponse>(`/api/plan?language=${language}`),
   teacher: (language: Language, message: string, sessionId?: string | null) => request<TeacherResponse>("/api/teacher", { method: "POST", body: JSON.stringify({ language, message, sessionId }) }),
   transcribe: (language: Language, audioBase64: string, mimeType: string) => request<{ text: string }>("/api/transcribe", { method: "POST", body: JSON.stringify({ language, audioBase64, mimeType }) }),

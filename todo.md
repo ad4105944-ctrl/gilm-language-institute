@@ -21,3 +21,8 @@
 - [ ] Vérifier que `VITE_SUPABASE_URL` chargé par Preview/Production est exactement `https://feaxpoleoyptdtaldgwx.supabase.co` sans contourner la vérification par une valeur codée en dur
 - [ ] Tester le parcours publié de connexion Ahmed après rechargement des secrets et confirmer la disparition de `fetch failed`
 - [x] Tester directement l’API REST du projet Supabase correct avec la clé publishable configurée (HTTP 200)
+
+- [x] Vérifier que le choix Ahmed produit exactement `ahmed@gilm.example` sans journaliser le mot de passe
+- [x] Vérifier l’utilisation de `signInWithPassword` avec l’URL et la clé publishable runtime correctes
+- [x] Afficher le code/message Supabase Auth exact en cas d’échec, sans exposer le mot de passe
+- [ ] Tester une connexion Ahmed réelle après rebuild/redeploy, sans tester OpenAI ni modifier Supabase

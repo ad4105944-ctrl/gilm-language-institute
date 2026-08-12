@@ -264,7 +264,13 @@ async function handleLogin(req: Request, res: Response) {
       method: "POST",
       body: JSON.stringify({ email: GILM_USERS[name], password }),
     });
-    if (!response.ok) return res.status(401).json({ error: "Invalid login against Supabase Auth." });
+    if (!response.ok) {
+      const authError = (authBody && typeof authBody === "object" ? authBody : {}) as { error?: string; error_code?: string; error_description?: string; msg?: string };
+      return res.status(response.status === 400 ? 401 : response.status).json({
+        error: authError.error_description ?? authError.msg ?? "Supabase Auth login failed.",
+        code: authError.error_code ?? authError.error ?? "unknown_auth_error",
+      });
+    }
     const data = authBody as { access_token?: string; refresh_token?: string; user?: unknown };
     if (!data.access_token) return res.status(401).json({ error: "Supabase session token missing." });
     return res.json({ access_token: data.access_token, refresh_token: data.refresh_token, user: { name, email: GILM_USERS[name] } });
