@@ -26,3 +26,5 @@
 - [x] Vérifier l’utilisation de `signInWithPassword` avec l’URL et la clé publishable runtime correctes
 - [x] Afficher le code/message Supabase Auth exact en cas d’échec, sans exposer le mot de passe
 - [ ] Tester une connexion Ahmed réelle après rebuild/redeploy, sans tester OpenAI ni modifier Supabase
+
+- [ ] Créer un dépôt GitHub privé pour GILM et pousser le code sans secrets ni artefacts sensibles
