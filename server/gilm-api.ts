@@ -10,7 +10,13 @@ export const GILM_USERS = {
 export type GilmUserName = keyof typeof GILM_USERS;
 export type Language = "en" | "fr";
 
-const SUPABASE_URL = () => (process.env.VITE_SUPABASE_URL ?? "").replace(/\/$/, "");
+const GILM_SUPABASE_PROJECT_URL = "https://feaxpoleoyptdtaldgwx.supabase.co";
+const SUPABASE_URL = () => {
+  const configured = (process.env.VITE_SUPABASE_URL ?? "").replace(/\/$/, "");
+  // Keep the public project URL correct even when a stale environment snapshot remains in Preview/Production.
+  if (!configured || configured === "https://feaxpoleovptdtaldqwx.supabase.co") return GILM_SUPABASE_PROJECT_URL;
+  return configured;
+};
 const SUPABASE_KEY = () => process.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "";
 const OPENAI_KEY = () => process.env.OPENAI_API_KEY ?? "";
 const TEXT_MODEL = () => process.env.OPENAI_TEXT_MODEL ?? "gpt-5.6-luna";

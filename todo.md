@@ -13,3 +13,11 @@
 - [x] Implémenter une gestion robuste des erreurs et des EMA pour les scores d'apprentissage
 - [x] Rédiger des tests Vitest complets pour les routes `/api/plan`, `/api/teacher`, `/api/transcribe`, `/api/speech`, `/api/progress`
 - [x] Créer le checkpoint final et préparer la livraison du projet
+
+- [ ] Remplacer uniquement `VITE_SUPABASE_URL` par `https://feaxpoleoyptdtaldgwx.supabase.co` sans recréer ni modifier le schéma, les RLS ou les comptes
+- [ ] Vérifier la connectivité Supabase et le parcours de connexion Ahmed après correction
+
+- [x] Diagnostiquer l’erreur persistante `fetch failed` sur le site publié sans modifier le schéma, les RLS ni les comptes Supabase
+- [ ] Vérifier que `VITE_SUPABASE_URL` chargé par Preview/Production est exactement `https://feaxpoleoyptdtaldgwx.supabase.co` sans contourner la vérification par une valeur codée en dur
+- [ ] Tester le parcours publié de connexion Ahmed après rechargement des secrets et confirmer la disparition de `fetch failed`
+- [x] Tester directement l’API REST du projet Supabase correct avec la clé publishable configurée (HTTP 200)
