@@ -28,3 +28,5 @@
 - [ ] Tester une connexion Ahmed réelle après rebuild/redeploy, sans tester OpenAI ni modifier Supabase
 
 - [x] Créer un dépôt GitHub privé pour GILM et pousser le code sans secrets ni artefacts sensibles
+
+- [x] Modifier la visibilité du dépôt GitHub GILM de privé à public et vérifier le résultat
